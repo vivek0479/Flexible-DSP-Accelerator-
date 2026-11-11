@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="fcu_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="fcu_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="276.601 ns"></ZoomEndTime>
+      <Cursor1Time time="41.667 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="340"></NameColumnWidth>
+      <ValueColumnWidth column_width="145"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/fcu_tb/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/clk_gate_en" type="logic">
+      <obj_property name="ElementShortName">clk_gate_en</obj_property>
+      <obj_property name="ObjectShortName">clk_gate_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/template_sel" type="array">
+      <obj_property name="ElementShortName">template_sel[2:0]</obj_property>
+      <obj_property name="ObjectShortName">template_sel[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/a_in" type="array">
+      <obj_property name="ElementShortName">a_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">a_in[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/xc_in" type="array">
+      <obj_property name="ElementShortName">xc_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">xc_in[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/xs_in" type="array">
+      <obj_property name="ElementShortName">xs_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">xs_in[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/wc_out" type="array">
+      <obj_property name="ElementShortName">wc_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">wc_out[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/ws_out" type="array">
+      <obj_property name="ElementShortName">ws_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ws_out[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/bin_out" type="array">
+      <obj_property name="ElementShortName">bin_out[15:0]</obj_property>
+      <obj_property name="ObjectShortName">bin_out[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/errors" type="array">
+      <obj_property name="ElementShortName">errors[31:0]</obj_property>
+      <obj_property name="ObjectShortName">errors[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/test_count" type="array">
+      <obj_property name="ElementShortName">test_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">test_count[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/WIDTH" type="array">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/yc_in" type="array">
+      <obj_property name="ElementShortName">yc_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">yc_in[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/ys_in" type="array">
+      <obj_property name="ElementShortName">ys_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ys_in[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/kc_in" type="array">
+      <obj_property name="ElementShortName">kc_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">kc_in[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fcu_tb/ks_in" type="array">
+      <obj_property name="ElementShortName">ks_in[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ks_in[15:0]</obj_property>
+   </wvobject>
+</wave_config>

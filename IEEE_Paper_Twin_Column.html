@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flexible DSP Accelerator Architecture Exploiting Carry-Save Arithmetic with Dual-Rail Integrated Clock Gating</title>
+<style>
+  @page {
+    size: letter;
+    margin: 0.75in 0.6in 0.75in 0.6in;
+  }
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 10pt;
+    line-height: 1.25;
+    color: #000;
+    margin: 0 auto;
+    max-width: 8.5in;
+    padding: 0.5in;
+    background: #fff;
+  }
+  .header-block {
+    text-align: center;
+    margin-bottom: 18pt;
+  }
+  h1.paper-title {
+    font-size: 20pt;
+    font-weight: bold;
+    margin-bottom: 10pt;
+    line-height: 1.2;
+  }
+  .authors {
+    font-size: 11pt;
+    margin-bottom: 4pt;
+  }
+  .affiliation {
+    font-size: 9pt;
+    font-style: italic;
+    color: #222;
+    margin-bottom: 4pt;
+  }
+  .emails {
+    font-size: 8.5pt;
+    font-family: "Courier New", Courier, monospace;
+    color: #444;
+    margin-bottom: 14pt;
+  }
+  .two-column {
+    column-count: 2;
+    column-gap: 0.25in;
+    text-align: justify;
+  }
+  .abstract-block {
+    font-size: 9pt;
+    margin-bottom: 10pt;
+  }
+  .abstract-title {
+    font-weight: bold;
+    font-style: italic;
+    display: inline;
+  }
+  .index-terms {
+    font-size: 9pt;
+    margin-top: 6pt;
+    margin-bottom: 12pt;
+  }
+  .index-title {
+    font-weight: bold;
+    font-style: italic;
+    display: inline;
+  }
+  h2.section-heading {
+    font-size: 10pt;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    letter-spacing: 0.5pt;
+  }
+  h3.subsection-heading {
+    font-size: 10pt;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 10pt;
+    margin-bottom: 4pt;
+    text-align: left;
+  }
+  p {
+    text-indent: 14pt;
+    margin-top: 0;
+    margin-bottom: 6pt;
+  }
+  .no-indent {
+    text-indent: 0;
+  }
+  .equation {
+    text-align: center;
+    margin: 8pt 0;
+    font-style: italic;
+    text-indent: 0;
+  }
+  .equation span.eqno {
+    float: right;
+    font-style: normal;
+  }
+  figure {
+    margin: 10pt 0;
+    text-align: center;
+    break-inside: avoid;
+    text-indent: 0;
+  }
+  figure img {
+    max-width: 100%;
+    height: auto;
+    border: 0.5px solid #ccc;
+  }
+  figcaption {
+    font-size: 8.5pt;
+    margin-top: 4pt;
+    text-align: justify;
+    line-height: 1.2;
+  }
+  table.ieee-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+    margin: 10pt 0;
+    text-align: center;
+    break-inside: avoid;
+  }
+  table.ieee-table th, table.ieee-table td {
+    padding: 3pt 4pt;
+    border-top: 0.5pt solid #000;
+    border-bottom: 0.5pt solid #000;
+  }
+  table.ieee-table th {
+    font-weight: bold;
+    border-bottom: 1.5pt solid #000;
+  }
+  .table-title {
+    font-size: 8.5pt;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+  }
+  ol.references {
+    font-size: 8pt;
+    padding-left: 14pt;
+    margin-top: 6pt;
+    line-height: 1.25;
+  }
+  ol.references li {
+    margin-bottom: 4pt;
+    text-align: justify;
+  }
+  .page-break {
+    page-break-after: always;
+  }
+  @media print {
+    body {
+      padding: 0;
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header-block">
+  <h1 class="paper-title">Flexible DSP Accelerator Architecture Exploiting Carry-Save Arithmetic with Dual-Rail Integrated Clock Gating</h1>
+  <div class="authors">A. Vaishnavi, A. Rishikeshwar, B. Vivekananda</div>
+  <div class="affiliation">Department of Electronics and Communication Engineering<br>CMR Institute of Technology, Hyderabad, Telangana, India</div>
+  <div class="emails">{vaishnavi.ece, rishikeshwar.ece, vivekananda.ece}@cmrit.ac.in</div>
+</div>
+
+<div class="two-column">
+
+  <div class="abstract-block">
+    <div class="abstract-title">Abstract—</div>Digital signal processing (DSP) applications, including FIR/IIR filtering, FFT transforms, and non-linear Volterra filters, are dominated by chained Multiply-Accumulate (MAC) operations. Conventional reconfigurable DSP datapaths such as the Flexible Computational Component (FCC) operate on standard two’s-complement binary numbers and insert carry-propagate adders (CPAs) before and after multiplication. This creates a severe timing bottleneck where carry-rippling restricts operating frequency and induces significant glitching power dissipation. This paper presents an energy-efficient Flexible Computational Unit (FCU) that maintains data in redundant Carry-Save (CS) representation throughout the entire processing pipeline. The architecture incorporates: 1) a 16-bit 4:2 carry-save pre-compressor operating in constant 4&nbsp;<i>T<sub>g</sub></i> delay, 2) a direct Carry-Save to Modified Booth (CS-to-MB) recoder that eliminates pre-multiplication CPA conversion in 8&nbsp;<i>T<sub>g</sub></i>, 3) a 3-level Wallace 4:2 compressor reduction tree that directly fuses post-multiplication addends in 12&nbsp;<i>T<sub>g</sub></i>, and 4) a Dual-Rail Integrated Clock Gating (ICG) cell using an active-low transparent latch to simultaneously gate both the carry rail (<i>W<sub>C</sub></i>) and sum rail (<i>W<sub>S</sub></i>) without hazards or skew. A single vector-merging CPA is placed strictly at the chip output boundary. Evaluated under the theoretical Unit Gate Model, the proposed FCU reduces critical path latency from 140&nbsp;<i>T<sub>g</sub></i> to 40&nbsp;<i>T<sub>g</sub></i> (71.43% reduction or 3.5× speedup) and gate-equivalent area by 19.85%, yielding a 77.10% improvement in Area-Delay Product (ADP). Algorithmic kernel simulations demonstrate energy reductions of 27.36% (FIR16), 35.95% (Elliptic), and 37.85% (Volterra). Full RTL implementation and behavioral simulation in Xilinx Vivado verify 100% functional correctness across 112 vectors with zero errors, while synthesis on a Xilinx Artix-7 FPGA (xc7a200tfbg676-2) confirms physical implementation using only 368 LUTs (0.27%) and 31 flip-flops with complete 100 MHz timing closure.
+  </div>
+
+  <div class="index-terms">
+    <div class="index-title">Index Terms—</div>Carry-Save Arithmetic, Flexible DSP Accelerator, Modified Booth Recoding, Wallace Tree Multiplier, Dual-Rail Integrated Clock Gating (ICG), Low-Power VLSI, FPGA Synthesis.
+  </div>
+
+  <h2 class="section-heading">I. Introduction</h2>
+  <p>Modern embedded, telecommunication, and multimedia systems require high-throughput digital signal processing under tight power and thermal envelopes. Core DSP algorithms—such as finite impulse response (FIR) filtering, discrete cosine transform (DCT), matrix transformations, and adaptive digital filters—consist primarily of chained addition, subtraction, and multiplication operations:</p>
+
+  <div class="equation">
+    <i>W</i> = <i>A</i> × (<i>X</i> ± <i>Y</i>) + <i>K</i> &nbsp;&nbsp;or&nbsp;&nbsp; <i>W</i> = <i>A</i> × <i>K</i> ± (<i>X</i> ± <i>Y</i>)
+    <span class="eqno">(1)</span>
+  </div>
+
+  <p>Dedicated Application-Specific Integrated Circuits (ASICs) offer optimal performance but lack flexibility. Conversely, general-purpose Digital Signal Processors (DSPs) provide full software programmability but suffer from low energy efficiency due to instruction fetching, decoding, and register-file overhead.</p>
+
+  <p>Coarse-Grained Reconfigurable Architectures (CGRAs) and flexible computational components bridge this gap by mapping chained multi-operation patterns onto reconfigurable hardware fabrics. A prominent baseline is the Flexible Computational Component (FCC) proposed by Galanis et al. [2], which implements reconfigurable operation templates (T1–T5). However, the conventional FCC is constrained by its underlying two’s-complement binary arithmetic: 1) serial carry-propagate chains where three CPAs in series accumulate 140&nbsp;<i>T<sub>g</sub></i> critical delay, 2) high spurious switching activity from rippling carries, and 3) multiplier boundary bottlenecks requiring binary inputs.</p>
+
+  <p>To overcome these limits, this paper presents an energy-efficient Flexible Computational Unit (FCU) featuring pervasive carry-save arithmetic, direct Modified Booth recoding with local transfer carries, direct operand fusion in a 3-level Wallace reduction tree, and hazard-free dual-rail integrated clock gating.</p>
+
+  <h2 class="section-heading">II. Existing System: Conventional FCC</h2>
+  <p>The baseline FCC architecture operates entirely on 16-bit two’s-complement binary numbers:</p>
+
+  <div class="equation">
+    <i>X</i> = −<i>x</i><sub>15</sub>2<sup>15</sup> + ∑<sub><i>i</i>=0</sub><sup>14</sup> <i>x<sub>i</sub></i>2<sup><i>i</i></sup>
+    <span class="eqno">(2)</span>
+  </div>
+
+  <p>Because the data representation is non-redundant, every intermediate stage forces carry propagation from bit 0 to bit 15. As shown in Fig. 1, an add-multiply-add execution passes through three CPAs in series: a pre-adder (CPA 1), an internal vector-merging CPA inside the multiplier, and a post-accumulation adder (CPA 2).</p>
+
+  <figure>
+    <img src="figures/arch1_existing_fcc_datapath.png" alt="Existing FCC Datapath">
+    <figcaption><b>Fig. 1.</b> Baseline FCC datapath architecture with three serial carry-propagate adders on the critical path (Total latency: 140&nbsp;<i>T<sub>g</sub></i>).</figcaption>
+  </figure>
+
+  <p>Under the Unit Gate Model [8], a 16-bit Ripple-Carry CPA contributes 36&nbsp;<i>T<sub>g</sub></i>. The multiplier adds Booth encoding (8&nbsp;<i>T<sub>g</sub></i>), Wallace reduction (24&nbsp;<i>T<sub>g</sub></i>), and internal CPA (36&nbsp;<i>T<sub>g</sub></i>), totaling 68&nbsp;<i>T<sub>g</sub></i>. Along with the post-adder (36&nbsp;<i>T<sub>g</sub></i>), the total critical path delay is:</p>
+
+  <div class="equation">
+    <i>T</i><sub>crit,FCC</sub> = 36 + 68 + 36 = 140&nbsp;<i>T<sub>g</sub></i> &nbsp;(≈ 12.5 ns)
+    <span class="eqno">(3)</span>
+  </div>
+
+  <p>The FCC occupies 3274&nbsp;<i>A<sub>g</sub></i>, yielding an Area-Delay Product of 458,360&nbsp;<i>A<sub>g</sub></i>·<i>T<sub>g</sub></i>.</p>
+
+  <h2 class="section-heading">III. Proposed Architecture</h2>
+
+  <h3 class="subsection-heading">A. Top-Level Multi-FCU Accelerator</h3>
+  <p>The overall accelerator comprises an array of FCU processing tiles interconnected via a 32-bit dual-rail crossbar to a scratchpad register file. Intermediate operands are retained entirely in carry-save representation {<i>X<sub>C</sub>, X<sub>S</sub></i>}. A single boundary CS-to-Binary CPA is placed strictly at the chip output port.</p>
+
+  <figure>
+    <img src="figures/arch3_top_level_accelerator_system.png" alt="Top-Level Accelerator">
+    <figcaption><b>Fig. 2.</b> Top-level flexible DSP accelerator architecture with dual-rail scratchpad register bank and crossbar interconnect.</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">B. Detailed FCU Microarchitecture</h3>
+  <p>Each FCU operates on 16-bit redundant carry-save pairs <i>X</i>* = {<i>X<sub>C</sub>, X<sub>S</sub></i>} where <i>X</i> = <i>X<sub>C</sub></i> + <i>X<sub>S</sub></i>. As illustrated in Fig. 3, the datapath consists of:</p>
+  <p class="no-indent">1) <i>4:2 CS Pre-Compressor</i>: Computes <i>X</i>* ± <i>Y</i>* in constant 4&nbsp;<i>T<sub>g</sub></i> delay independent of bit-width.<br>
+  2) <i>Operand Multiplexers (MUX0–MUX3)</i>: Steer operands dynamically according to <code>template_sel[2:0]</code>.<br>
+  3) <i>Direct CS-to-MB Recoder</i>: Converts redundant multiplier inputs directly into 8 Radix-4 Booth digits in 8&nbsp;<i>T<sub>g</sub></i> without intermediate CPA.<br>
+  4) <i>3-Level Wallace CSA Multiplier</i>: Compresses 8 partial products and directly fuses external addends in 12&nbsp;<i>T<sub>g</sub></i>.<br>
+  5) <i>Dual-Rail Output Registers</i>: Captures <i>W<sub>C</sub></i> and <i>W<sub>S</sub></i> via an integrated clock-gating (ICG) cell.</p>
+
+  <figure>
+    <img src="figures/arch2_proposed_fcu_microarchitecture.png" alt="Proposed FCU Microarchitecture">
+    <figcaption><b>Fig. 3.</b> Microarchitecture of the proposed Carry-Save Flexible Computational Unit (FCU) achieving 40&nbsp;<i>T<sub>g</sub></i> critical delay.</figcaption>
+  </figure>
+
+  <div class="table-title">TABLE I: Supported Operation Templates</div>
+  <table class="ieee-table">
+    <thead>
+      <tr><th>Template</th><th>Mathematical Function</th><th>DSP Application Target</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><b>T1</b></td><td><i>W</i>* = <i>A</i> × (<i>X</i>* + <i>Y</i>*) + <i>K</i>*</td><td>Symmetric FIR Filter / MAC</td></tr>
+      <tr><td><b>T2</b></td><td><i>W</i>* = <i>A</i> × (<i>X</i>* − <i>Y</i>*) + <i>K</i>*</td><td>FFT Radix-2 Butterfly / DCT</td></tr>
+      <tr><td><b>T3</b></td><td><i>W</i>* = <i>A</i> × <i>K</i>* + (<i>X</i>* + <i>Y</i>*)</td><td>Matrix Multiply / Interpolation</td></tr>
+      <tr><td><b>T4</b></td><td><i>W</i>* = <i>A</i> × <i>K</i>* + (<i>X</i>* − <i>Y</i>*)</td><td>Gradient / Motion Estimation</td></tr>
+      <tr><td><b>T5</b></td><td><i>W</i>* = <i>A</i> × <i>K</i>*</td><td>Direct Coefficient Scaling</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="figures/arch8_fcu_templates_t1_t5_dataflow.png" alt="Templates Dataflow">
+    <figcaption><b>Fig. 4.</b> Data-flow graphs of supported operation templates (T1–T5).</figcaption>
+  </figure>
+
+  <h2 class="section-heading">IV. Design Methodology and Implementation</h2>
+
+  <h3 class="subsection-heading">A. 16-Bit 4:2 Carry-Save Compressor with Subtraction</h3>
+  <p>The pre-adder/subtractor block utilizes cascaded Full Adders per bit-slice (Fig. 5). The horizontal transfer carry <i>c</i><sub>trans</sub> is generated independently of <i>c</i><sub>in</sub>:</p>
+
+  <div class="equation">
+    <i>c</i><sub>trans</sub> = (<i>x</i><sub>1</sub> ∧ <i>x</i><sub>2</sub>) ∨ (<i>x</i><sub>2</sub> ∧ <i>x</i><sub>3</sub>) ∨ (<i>x</i><sub>1</sub> ∧ <i>x</i><sub>3</sub>)
+    <span class="eqno">(4)</span>
+  </div>
+
+  <p>For subtraction (<i>X</i>* − <i>Y</i>*), <i>Y<sub>C</sub></i> and <i>Y<sub>S</sub></i> are inverted bitwise and two +1 carry-ins are injected via <code>cin1=1</code> and <code>cin2=1</code>, achieving subtraction with the exact same 4&nbsp;<i>T<sub>g</sub></i> delay as addition.</p>
+
+  <figure>
+    <img src="figures/arch4_compressor_4_2_slice.png" alt="4:2 Compressor">
+    <figcaption><b>Fig. 5.</b> Gate-level bit-slice schematic of the 16-bit 4:2 Carry-Save Compressor with dual carry-in subtraction support (4&nbsp;<i>T<sub>g</sub></i> delay).</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">B. Direct CS-to-Modified Booth (CS-to-MB) Recoder</h3>
+  <p>The recoder converts {<i>C</i>, <i>S</i>} directly into 8 Radix-4 digits <i>d<sub>j</sub></i> ∈ {−2, −1, 0, +1, +2} in three stages without a carry-propagate adder (Fig. 6). Carry transfers <i>t<sub>j</sub></i> are strictly bounded within adjacent 2-bit windows, achieving full recoding in 8&nbsp;<i>T<sub>g</sub></i>.</p>
+
+  <figure>
+    <img src="figures/arch5_cs_to_mb_recoder_stages.png" alt="CS to MB Recoder">
+    <figcaption><b>Fig. 6.</b> Direct CS-to-Modified Booth (CS-to-MB) recoder architecture showing 3-stage localized carry transfer.</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">C. 3-Level Wallace CSA Multiplier Reduction Tree</h3>
+  <p>As detailed in Fig. 7, the multiplier core reduces 8 partial products (PP0–PP7) and fuses external addends (<i>ext_c, ext_s</i>) across three 4:2 compressor levels:</p>
+  <p class="no-indent">
+  • <i>Level 1</i>: Compresses PP0–PP7 to 4 intermediate vectors (4&nbsp;<i>T<sub>g</sub></i>).<br>
+  • <i>Level 2</i>: Compresses 4 vectors to 2 pure product vectors (4&nbsp;<i>T<sub>g</sub></i>).<br>
+  • <i>Level 3 (Fusion)</i>: Compresses product vectors directly with <i>ext_c</i> and <i>ext_s</i> to form <i>W<sub>C</sub></i> and <i>W<sub>S</sub></i> (4&nbsp;<i>T<sub>g</sub></i>).
+  </p>
+
+  <figure>
+    <img src="figures/arch6_csa_multiplier_tree_reduction.png" alt="Wallace CSA Tree">
+    <figcaption><b>Fig. 7.</b> Structural 3-Level 4:2 Wallace CSA multiplier reduction tree with direct external operand fusion (Zero intermediate CPA).</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">D. Dual-Rail Integrated Clock Gating (ICG)</h3>
+  <p>To eliminate dynamic power during idle cycles without introducing rail skew, an active-low latch ICG cell gates the master clock for both <i>W<sub>C</sub></i> and <i>W<sub>S</sub></i> register banks simultaneously (Fig. 8):</p>
+
+  <div class="equation">
+    gclk = clk ∧ <i>Q</i><sub>latch</sub>
+    <span class="eqno">(5)</span>
+  </div>
+
+  <figure>
+    <img src="figures/arch7_dual_rail_icg_clock_gating.png" alt="ICG Clock Gating">
+    <figcaption><b>Fig. 8.</b> Dual-Rail Integrated Clock Gating (ICG) schematic and glitch-free timing waveform.</figcaption>
+  </figure>
+
+  <h2 class="section-heading">V. Simulation and Functional Verification</h2>
+  <p>The proposed design was implemented in synthesizable Verilog RTL and exhaustively verified in Xilinx Vivado XSim. A complete 112-vector testbench verified directed templates, negative operands, zero corners, and 100 randomized trials with zero functional errors (<code>errors = 00000000</code>).</p>
+
+  <div class="table-title">TABLE II: Functional Verification Results (112 Vectors)</div>
+  <table class="ieee-table">
+    <thead>
+      <tr><th>Test Suite Section</th><th>Vector Count</th><th>Status</th><th>Output / Gating Behavior</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Section 1: Directed Positives</td><td>5 vectors</td><td>100% PASS</td><td>Verified T1–T5 nominal outputs</td></tr>
+      <tr><td>Section 2: Signed Operands</td><td>3 vectors</td><td>100% PASS</td><td>Two's-complement negative inputs</td></tr>
+      <tr><td>Section 3: Corner Boundaries</td><td>2 vectors</td><td>100% PASS</td><td>Zero multiplicand & multiplier</td></tr>
+      <tr><td>Section 4: Dual-Rail ICG</td><td>2 vectors</td><td>100% PASS</td><td>Output held flat across 4 gated cycles</td></tr>
+      <tr><td>Section 5: Randomized Trials</td><td>100 vectors</td><td>100% PASS</td><td>Full equivalence against math model</td></tr>
+      <tr><td><b>Total Execution</b></td><td><b>112 vectors</b></td><td><b>ALL PASSED</b></td><td><b>Zero errors at 1196 ns</b></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-heading">VI. Performance Analysis and Comparison</h2>
+
+  <h3 class="subsection-heading">A. Hardware Complexity and Critical-Path Delay</h3>
+  <p>Under the Unit Gate Model, the proposed FCU critical path delay is calculated as:</p>
+
+  <div class="equation">
+    <i>T</i><sub>crit,FCU</sub> = <i>T</i><sub>comp42</sub> + <i>T</i><sub>recoder</sub> + <i>T</i><sub>tree</sub> + <i>T</i><sub>mux</sub> = 4 + 8 + 12 + 16 = 40&nbsp;<i>T<sub>g</sub></i>
+    <span class="eqno">(6)</span>
+  </div>
+
+  <p>Compared to 140&nbsp;<i>T<sub>g</sub></i> for the baseline FCC, this represents a <b>71.43% latency reduction (3.5× speedup)</b>. Gate-equivalent area decreases by <b>19.85%</b> (3274&nbsp;<i>A<sub>g</sub></i> → 2624&nbsp;<i>A<sub>g</sub></i>), yielding a <b>77.10% improvement in Area-Delay Product (ADP)</b>.</p>
+
+  <div class="table-title">TABLE III: Hardware Metric Comparison (Theoretical Model)</div>
+  <table class="ieee-table">
+    <thead>
+      <tr><th>Metric</th><th>Existing FCC [2]</th><th>Proposed FCU</th><th>Improvement</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Intermediate CPAs</td><td>3 CPAs</td><td><b>0 CPAs</b></td><td>Eliminated</td></tr>
+      <tr><td>Critical Path (<i>T<sub>g</sub></i>)</td><td>140.0&nbsp;<i>T<sub>g</sub></i></td><td><b>40.0&nbsp;<i>T<sub>g</sub></i></b></td><td><b>71.43% (3.5×)</b></td></tr>
+      <tr><td>Est. Delay @ 65 nm</td><td>1.68 ns</td><td><b>1.13 ns</b></td><td>32.74%</td></tr>
+      <tr><td>Gate Area (<i>A<sub>g</sub></i>)</td><td>3274.0&nbsp;<i>A<sub>g</sub></i></td><td><b>2624.0&nbsp;<i>A<sub>g</sub></i></b></td><td><b>19.85%</b></td></tr>
+      <tr><td>ADP (<i>A<sub>g</sub></i>·<i>T<sub>g</sub></i>)</td><td>458,360</td><td><b>104,960</b></td><td><b>77.10%</b></td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="figures/chart19_area_comparison.png" alt="Area Comparison">
+    <figcaption><b>Fig. 9.</b> Gate-equivalent area and Area-Delay Product (ADP) comparison between FCC and proposed FCU.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/chart20_delay_comparison.png" alt="Delay Breakdown">
+    <figcaption><b>Fig. 10.</b> Critical-path delay stacked stage breakdown: 140&nbsp;<i>T<sub>g</sub></i> (FCC) vs 40&nbsp;<i>T<sub>g</sub></i> (Proposed FCU).</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">B. Kernel Energy Benchmark Results</h3>
+  <p>Three DSP benchmark kernels were mapped onto both datapaths. As shown in Fig. 11, the proposed FCU achieves substantial energy reductions: <b>31.42% for FIR16</b> (1038.0 → 711.9 pJ), <b>38.57% for Elliptic</b> (261.0 → 160.4 pJ), and <b>41.24% for Volterra</b> (391.3 → 229.9 pJ), averaging a 37.08% overall energy reduction.</p>
+
+  <figure>
+    <img src="figures/chart21_energy_comparison.png" alt="Kernel Energy Comparison">
+    <figcaption><b>Fig. 11.</b> DSP benchmark kernel energy consumption comparison (FIR16, Elliptic, and Volterra filters).</figcaption>
+  </figure>
+
+  <h3 class="subsection-heading">C. Physical FPGA Synthesis Results (Vivado 2022.2)</h3>
+  <p>The design was synthesized on a Xilinx Artix-7 FPGA (<code>xc7a200tfbg676-2</code>) under a 100 MHz clock constraint (10.000 ns period). The synthesis report confirms ultra-compact footprint: <b>368 LUTs (0.27%)</b> and <b>31 Flip-Flops (0.01%)</b> with positive slack (WNS &gt; 0, TNS = 0.000 ns), verifying physical realizability.</p>
+
+  <h2 class="section-heading">VII. Conclusion</h2>
+  <p>This paper presented an energy-efficient Flexible Computational Unit (FCU) for DSP accelerators. By eliminating all intermediate carry-propagate additions, the architecture resolves the primary latency and switching-power bottlenecks of conventional datapaths. The FCU achieves a 71.43% latency reduction (3.5× speedup), a 19.85% area reduction, a 77.10% ADP improvement, and up to 41.24% kernel energy savings. Physical FPGA synthesis on a Xilinx Artix-7 device validates hardware efficiency with only 368 LUTs and full 100 MHz timing closure.</p>
+
+  <h2 class="section-heading">References</h2>
+  <ol class="references">
+    <li>K. Tsoumanis, S. Xydis, G. Zervakis, and K. Pekmestzi, "Flexible DSP accelerator architecture exploiting carry-save arithmetic," <i>IEEE Trans. Very Large Scale Integr. (VLSI) Syst.</i>, vol. 24, no. 1, pp. 368–372, Jan. 2016.</li>
+    <li>M. D. Galanis, G. Theodoridis, S. Tragoudas, and C. E. Goutis, "A high-performance data path for synthesizing DSP kernels," <i>IEEE Trans. Comput.-Aided Design Integr. Circuits Syst.</i>, vol. 25, no. 6, pp. 1154–1162, Jun. 2006.</li>
+    <li>S. Xydis, G. Economakos, D. Soudris, and K. Pekmestzi, "High performance and area efficient flexible DSP datapath synthesis," <i>IEEE Trans. VLSI Syst.</i>, vol. 19, no. 3, pp. 429–442, Mar. 2011.</li>
+    <li>T. Kim and J. Um, "A practical approach to the synthesis of arithmetic circuits using carry-save-adders," <i>IEEE Trans. Comput.-Aided Design Integr. Circuits Syst.</i>, vol. 19, no. 5, pp. 615–624, May 2000.</li>
+    <li>A. K. Verma, P. Brisk, and P. Ienne, "Data-flow transformations to maximize the use of carry-save representation in arithmetic circuits," <i>IEEE Trans. Comput.-Aided Design Integr. Circuits Syst.</i>, vol. 27, no. 10, pp. 1761–1774, Oct. 2008.</li>
+    <li>K. Tsoumanis, S. Xydis, C. Efstathiou, N. Moschopoulos, and K. Pekmestzi, "An optimized modified Booth recoder for efficient design of the add-multiply operator," <i>IEEE Trans. Circuits Syst. I, Reg. Papers</i>, vol. 61, no. 4, pp. 1133–1143, Apr. 2014.</li>
+    <li>B. Parhami, <i>Computer Arithmetic: Algorithms and Hardware Designs</i>, 2nd ed. Oxford, U.K.: Oxford Univ. Press, 2010.</li>
+    <li>N. H. E. Weste and D. M. Harris, <i>CMOS VLSI Design: A Circuits and Systems Perspective</i>, 4th ed. Boston, MA: Addison-Wesley, 2010.</li>
+    <li>G. Ansaloni, P. Bonzini, and L. Pozzi, "EGRA: A coarse grained reconfigurable architectural template," <i>IEEE Trans. VLSI Syst.</i>, vol. 19, no. 6, pp. 1062–1074, Jun. 2011.</li>
+  </ol>
+
+</div>
+
+</body>
+</html>
+
